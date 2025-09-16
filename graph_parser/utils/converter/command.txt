@@ -1,0 +1,3 @@
+# for cdcp
+python ./utils/converter/cdcp2mrp.py --dir_cdcp='./data/cdcp/train' --output='./data_mrp/cdcp/cdcp_train.mrp'
+python ./utils/converter/cdcp2mrp.py --dir_cdcp='./data/cdcp/test' --output='./data_mrp/cdcp/cdcp_test.mrp'

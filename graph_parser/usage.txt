@@ -1,0 +1,47 @@
+1.data preprocess:
+# For aaec
+python ./utils/converter/aaec2mrp.py \
+    --dir_aaec='./data/aaec/brat-project-final'\
+    --dir_output='./data_mrp/aaec'\
+    --level='para'\
+    --dev_rate=0.1\
+    --low_res_rate=0.1
+
+# For cdcp
+python ./utils/converter/cdcp2mrp.py\
+    --dir_cdcp='./data/cdcp/train'\
+    --output='./data_mrp/cdcp'\
+    --vali_split_rate=0.1\
+    --low_res_rate=0.1
+
+
+2.train and eval:
+python -m amparse.trainer.train \
+    --log ./log/train/aaec \
+    --ftrain ./data_mrp/aaec/aaec_para_train.mrp \
+    --fvalid ./data_mrp/aaec/aaec_para_vali.mrp  \
+    --ftest ./data_mrp/aaec/aaec_para_test.mrp  \
+    --seed 42 \
+    --model_name_or_path "allenai/longformer-base-4096" \
+    --build_numericalizer_on_entire_corpus true \
+    --batch_size 4 \
+    --eval_batch_size 16 \
+    --embed_dropout 0.1 \
+    --mlp_dropout 0.1 \
+    --dim_mlp 512 \
+    --dim_biaffine 512 \
+    --lambda_bio 1. \
+    --lambda_proposition 0.1 \
+    --lambda_arc 1. \
+    --lambda_rel 0.1 \
+    --lr 5e-5 \
+    --beta1 0.9 \
+    --beta2 0.998 \
+    --warmup_ratio 0.1 \
+    --clip 1.0 \
+    --epochs 20 \
+    --terminate_epochs 20 \
+    --evaluate_epochs 2 \
+    --evaluate_with_oracle_span false  
+
+# for cdcp use ./data_mrp/cdcp/cdcp_vali.mrp
