@@ -17,7 +17,8 @@ QOS+DOS/
     │
     └── Struct-Syn #  see /Struct-Syn/README.md
 ```
-###Quick Start 
+Quick Start 
+==
 1. Evironment 
 ```bash
 pip install -r requirements.txt
@@ -35,7 +36,8 @@ python Topic_Generate.py
 python Agent_Caller.py
 ```
 
-### Training
+Training
+ ===
  
  1. Train baseline model (origin ST Model)
 ```bash
@@ -56,7 +58,8 @@ python run_pretrain_sft_props --gpu_id X --agent imitation_agent[paraphrase_agen
 
 
 
-###Citation
+Citation
+==
 ```bash
 
 ```
