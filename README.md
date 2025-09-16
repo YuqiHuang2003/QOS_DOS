@@ -1,37 +1,62 @@
-### Project Structure
+Exploring Quality and Diversity in Synthetic Data Generation for Argument Mining
+======================
+EMNLP 2025 Main Conference
+
 ```text
-Struct-Syn/
-└── Struct-Syn/
-    ├── src/
-    │   ├── LM/
-    │   │   ├── chatgpt.py
-    │   │   └── config.json           # Put your LLM API configuration here
-    │   └── syn_Agent/
-    │       └── [core agent implementation]
-    ├── Topic_Summary_Generator.py    # Generate Topic–Summary training datasets
-    ├── Topic_Generate.py             # Generate diverse topics
-    └── Agent_Caller.py               # Orchestrate and run different synthesis agents
+### Project Structure
+QOS+DOS/
+    ├── Data/
+    │   ├── aaec_essay/syn_datas
+    │   │   ├── imitation_agent/ datas(5% and 100% without annotation)
+    │   │   └── paraphrase_agent/ datas(5% and 100%)
+    │   └── abstrct, cdcp ....
+    │           
+    ├── data_mrp    #orginal dataset from AAEC,CDCP and AbstRCT 
+    │
+    ├── graph_parser # ST Model
+    │
+    └── Struct-Syn #  see /Struct-Syn/README.md
 ```
-
-### Configuration
-- Update `src/LM/config.json` with your API key, base URL, model name, etc.
-
-### Usage
+###Quick Start 
+1. Evironment 
 ```bash
-python Topic_Summary_Generator.py
+pip install -r requirements.txt
 ```
+2. prepare API and URL for LLMs in Struct-Syn/src/LM/config.json
 
-- Generate diverse topics
+3. using Topic_Summary to get original topic from dataset.Then brainstorm more topics.
 ```bash
+cd Struct-Syn
+python Topic_Summary.py
 python Topic_Generate.py
 ```
-
-- Run synthesis agents (adjust agent parameters and workflow as needed before running)
+4. Generate QOS and DOS dataset (adjust agent parameters and workflow as needed before running)
 ```bash
 python Agent_Caller.py
 ```
 
+### Training
+ 
+ 1. Train baseline model (origin ST Model)
+```bash
+cd graph_parser
+python run_systems_datasets.py --few_shot 5 --dataset cdcp --gpu_id X
+```
+ 2. Auto Annotation (Only for DOS)
+ (adjust model_path [baseline ST model path]) 
+  Note that dataset and fewshot is in the python file
+```bash
+python run_distill.py --gpu_id X --model model_path
+```
+
+ 3.trainning
+```bash
+python run_pretrain_sft_props --gpu_id X --agent imitation_agent[paraphrase_agent] --dataset cdcp --few_shot 5 
+```
 
 
 
+###Citation
+```bash
 
+```
