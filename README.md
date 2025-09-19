@@ -1,6 +1,6 @@
 Exploring Quality and Diversity in Synthetic Data Generation for Argument Mining
 ======================
-EMNLP 2025 Main Conference
+EMNLP 2025 Main Conference \\
 Abstract
 ===
 ```text
