@@ -102,12 +102,6 @@ QOS+DOS/
 
 ## Installation
 
-### Prerequisites
-
-- Python 3.7+
-- CUDA-capable GPU (recommended for training)
-- Access to LLM APIs (OpenAI, Anthropic, etc.)
-
 ### Setup
 
 1. **Clone the repository**
