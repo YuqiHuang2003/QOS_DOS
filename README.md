@@ -16,8 +16,6 @@
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
-  - [Data Generation](#data-generation)
-  - [Model Training](#model-training)
 - [Dataset](#dataset)
 - [Citation](#citation)
 - [License](#license)
@@ -103,29 +101,39 @@ QOS+DOS/
 ---
 
 ## Installation
+
+### Prerequisites
+
+- Python 3.7+
+- CUDA-capable GPU (recommended for training)
+- Access to LLM APIs (OpenAI, Anthropic, etc.)
+
 ### Setup
 
 1. **Clone the repository**
-```bash
-git clone git@github.com:YuqiHuang2003/Struct-Syn.git
-cd QOS_DOS
-```
+   ```bash
+   git clone git@github.com:YuqiHuang2003/Struct-Syn.git
+   cd QOS_DOS
+   ```
 
 2. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 3. **Configure LLM API**
    
    Edit `Struct-Syn/src/LM/config.json` with your LLM API keys and base URLs:
-```json
-{
-  "api_key": "your_api_key",
-  "base_url": "your_base_URL",
-  "model": "your_model_name"
-}
-```
+   
+   **Note**: Make sure to configure the correct API endpoint for your chosen LLM service.
+   
+   ```json
+   {
+     "api_key": "your_api_key",
+     "base_url": "your_base_URL",
+     "model": "your_model_name"
+   }
+   ```
 
 ---
 
@@ -155,31 +163,11 @@ The generated data will be saved in `Data/{dataset_name}/syn_datas/` with separa
 
 ## Usage
 
-### Data Generation
-
-#### Quality-Oriented Synthesis (QOS)
-
-Uses structure-aware paraphrasing to generate high-quality synthetic data:
-
-```bash
-cd Struct-Syn
-python Agent_Caller.py --agent paraphrase_agent --dataset cdcp
-```
-
-#### Diversity-Oriented Synthesis (DOS)
-
-Generates novel argumentative texts with diverse topics and structures:
-
-```bash
-cd Struct-Syn
-python Agent_Caller.py --agent imitation_agent --dataset cdcp
-```
-
 ### Model Training
 
 #### 1. Train Baseline Model
 
-Train the original ST (Structure-Tree) model on the baseline dataset:
+Train the original ST model on the baseline dataset:
 
 ```bash
 cd graph_parser
@@ -187,7 +175,7 @@ python run_systems_datasets.py --few_shot 5 --dataset cdcp --gpu_id 0
 ```
 
 **Parameters:**
-- `--few_shot`: Number of training examples (e.g., 5, 10, 100)
+- `--few_shot`: Percent of training examples (e.g., 5, 100)
 - `--dataset`: Dataset name (`cdcp`, `aaec`, `abstrct`)
 - `--gpu_id`: GPU device ID
 
@@ -220,25 +208,30 @@ python run_pretrain_sft_props.py --gpu_id 0 --agent imitation_agent --dataset cd
 **Combined approach:**
 Use both QOS and DOS data by training with each separately and then combining results, or modify the training script to use both data sources simultaneously.
 
+> **Tip**: For best results, we recommend using a combination of both QOS and DOS synthetic data, as they complement each other in improving model performance.
+
 ---
 
 ## Dataset
 
 This project supports three argument mining datasets:
 
-| Dataset | Description | Source |
-|---------|-------------|--------|
-| **AAEC** | Argument Annotated Essays Corpus | Academic essays with argument structure annotations |
-| **CDCP** | Congressional Debate Corpus | Congressional debate transcripts |
-| **AbstRCT** | Abstract Argumentation Corpus | Scientific abstracts with argument relations |
+| Dataset | Source |
+|---------|--------|
+| **AAEC** | [Parsing Argumentation Structures in Persuasive Essays](https://aclanthology.org/J17-3005/) |
+| **CDCP** | [A Corpus of eRulemaking User Comments for Measuring Evaluability of Arguments](https://aclanthology.org/L18-1257/) |
+| **AbstRCT** | [Transformer-based Argument Mining for Healthcare Applications](https://hal.science/hal-03066688/) |
 
-Original datasets should be placed in `data_mrp/` directory in MRP format. Synthetic data will be generated in `Data/{dataset_name}/syn_datas/`.
+**Dataset Format:**
+- Original datasets should be placed in `data_mrp/` directory in MRP format
+- Synthetic data will be generated in `Data/{dataset_name}/syn_datas/`
+- Each dataset includes train/validation/test splits in both MRP and JSONL formats
 
 ---
 
 ## Citation
 
-If you use this code or data in your research, please cite:
+If you use this code or data in your research, please cite our paper:
 
 ```bibtex
 @inproceedings{bao2025exploring,
@@ -254,7 +247,7 @@ If you use this code or data in your research, please cite:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
